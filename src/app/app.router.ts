@@ -19,6 +19,4 @@ const routes: Routes = [
     }
 ];
 
-export const Routing: ModuleWithProviders = RouterModule.forRoot(routes, {
-    anchorScrolling: 'enabled'
-});
+export const Routing: ModuleWithProviders = RouterModule.forRoot(routes);

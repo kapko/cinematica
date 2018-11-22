@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MovieState } from 'src/app/store/app.reducer';
 import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { IMovie } from 'src/app/models/movie';
 
 @Component({
     selector: 'app-pages-detail',
@@ -12,6 +14,7 @@ import { map } from 'rxjs/operators';
 export class PagesDetailComponent {
 
     private movieId: number;
+    public movie: IMovie;
 
     constructor(
         private activeRoute: ActivatedRoute,
@@ -21,10 +24,12 @@ export class PagesDetailComponent {
 
         this.store.pipe(
             select('movie'),
+            take(1),
             map(movies => movies.find(movie => movie.id === this.movieId))
         )
         .subscribe(movie => {
-            console.log(movie);
+            this.movie = movie;
         });
+
     }
 }

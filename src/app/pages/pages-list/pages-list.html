@@ -1,18 +1,19 @@
 <h1>
-    <a [routerLink]="['/movies']" fragment="23">bad-boys</a>
+    <button [routerLink]="['movie']" fragment="bad-boys">Go to destination</button>
 </h1>
 
-<mat-card class="list" *ngFor="let movie of movieList | async" [id]="movie.id">
-    <mat-card-header>
-        <mat-card-title><a [routerLink]="['/movie/id/', movie.id]">{{movie.name}}</a></mat-card-title>
-    </mat-card-header>
-    <p>Rate: {{movie.rate}}</p>
-    <p>Id: {{movie.id}}</p>
-    <p>Time: {{movie.length}}</p>
-    <p>{{movie.key}}</p>
-
-    <img class="list__image" mat-card-image [src]="movie.url" alt="Photo of a Shiba Inu">
-    <span *ngFor="let genre of movie.genres">{{genre}} / </span>
-</mat-card>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 card-list" *ngFor="let movie of movieList | async" [id]="movie.key">
+            <img [src]="movie.url" class="rounded float-left" [alt]="movie.name">
+            <div class="card-body card-list__body">
+                <h5 class="card-title"><a [routerLink]="['/movie/id/', movie.id]">{{movie.name}}</a></h5>
+                <p class="card-text">{{movie.description}}</p>
+                <app-genres [genres]="movie.genres"></app-genres>
+                <span aria-hidden="true">&#9733;</span>
+            </div>
+        </div>
+    </div>
+</div>
 
 <h3 (click)="scrollToTop()">scroll to top</h3>

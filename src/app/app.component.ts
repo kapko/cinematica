@@ -3,7 +3,8 @@ import { MovieService } from './services/movie.service';
 import { Store } from '@ngrx/store';
 import { MovieState } from './store/app.reducer';
 import * as MovieActions from './store/app.actions';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
+import { IMovie } from './models/movie';
 
 @Component({
     selector: 'app-root',
@@ -18,10 +19,20 @@ export class AppComponent {
         // just for dummy data
         this.movieService
             .getMovieList()
-            .pipe(take(1))
+            .pipe(
+                take(1),
+                map(movies => this.getImageUrl(movies))
+            )
             .subscribe(movies => {
                 this.store.dispatch(new MovieActions.LoadMovie(movies));
             });
+    }
+
+    private getImageUrl(movies: IMovie[]): IMovie[] {
+        return movies.map(movie => {
+            movie.url = `/src/app/content/assets/images/movie-covers/${movie.img}`;
+            return movie;
+        });
     }
 
 }

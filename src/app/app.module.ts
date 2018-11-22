@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import {
     MatListModule,
     MatIconModule,
@@ -15,12 +16,16 @@ import { PagesListComponent, PagesDetailComponent } from './pages';
 import { Routing } from './app.router';
 import { MovieService } from './services/movie.service';
 import { movieReducer } from './store/app.reducer';
+import { GengresComponent } from './components/genres.component';
+import { BreadCrumbsComponent } from './components/bread-crumbs.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         PagesListComponent,
-        PagesDetailComponent
+        GengresComponent,
+        PagesDetailComponent,
+        BreadCrumbsComponent
     ],
     imports: [
         BrowserModule,
@@ -30,6 +35,7 @@ import { movieReducer } from './store/app.reducer';
         MatCardModule,
         MatButtonModule,
         MatChipsModule,
+        ScrollToModule.forRoot(),
         StoreModule.forRoot({movie: movieReducer})
     ],
     providers: [

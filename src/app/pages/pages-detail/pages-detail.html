@@ -1,1 +1,15 @@
-<h1>Hello Detail</h1>
+<app-bread-crumbs [movie]="movie"></app-bread-crumbs>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 card-list">
+            <img [src]="movie.url" class="rounded float-left" [alt]="movie.name">
+            <div class="card-body card-list__body">
+                <h5 class="card-title"><a [routerLink]="['/movie/id/', movie.id]">{{movie.name}}</a></h5>
+                <p class="card-text">{{movie.description}}</p>
+                <app-genres [genres]="movie.genres"></app-genres>
+                <span aria-hidden="true">&#9733;</span>
+            </div>
+        </div>
+    </div>
+</div>
