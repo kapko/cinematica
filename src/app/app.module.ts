@@ -18,6 +18,9 @@ import { MovieService } from './services/movie.service';
 import { movieReducer } from './store/app.reducer';
 import { GengresComponent } from './components/genres.component';
 import { BreadCrumbsComponent } from './components/bread-crumbs.component';
+import { RateComponent } from './components/rate.component';
+import { SearchPipe } from './pipes/search.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -25,7 +28,9 @@ import { BreadCrumbsComponent } from './components/bread-crumbs.component';
         PagesListComponent,
         GengresComponent,
         PagesDetailComponent,
-        BreadCrumbsComponent
+        BreadCrumbsComponent,
+        SearchPipe,
+        RateComponent
     ],
     imports: [
         BrowserModule,
@@ -34,6 +39,7 @@ import { BreadCrumbsComponent } from './components/bread-crumbs.component';
         MatIconModule,
         MatCardModule,
         MatButtonModule,
+        FormsModule,
         MatChipsModule,
         ScrollToModule.forRoot(),
         StoreModule.forRoot({movie: movieReducer})
@@ -41,6 +47,7 @@ import { BreadCrumbsComponent } from './components/bread-crumbs.component';
     providers: [
         MovieService
     ],
+
     bootstrap: [AppComponent]
 })
 

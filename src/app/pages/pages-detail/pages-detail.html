@@ -5,11 +5,15 @@
         <div class="col-lg-12 card-list">
             <img [src]="movie.url" class="rounded float-left" [alt]="movie.name">
             <div class="card-body card-list__body">
-                <h5 class="card-title"><a [routerLink]="['/movie/id/', movie.id]">{{movie.name}}</a></h5>
+                <h5 class="card-title">{{movie.name}}</h5>
                 <p class="card-text">{{movie.description}}</p>
+                <p><span aria-hidden="true">&#8987;</span>{{movie.length}}</p>
                 <app-genres [genres]="movie.genres"></app-genres>
-                <span aria-hidden="true">&#9733;</span>
+                <app-rate [rate]="movie.rate"></app-rate>
             </div>
         </div>
     </div>
 </div>
+
+
+

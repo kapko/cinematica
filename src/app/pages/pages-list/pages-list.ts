@@ -1,13 +1,12 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
-import { MovieService } from 'src/app/services/movie.service';
-import { Observable, Subject } from 'rxjs';
+import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Observable, Subject, fromEvent } from 'rxjs';
 import { IMovie } from 'src/app/models/movie';
-import { map, filter, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, debounceTime } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { MovieState } from 'src/app/store/app.reducer';
-import * as MovieActions from '../../store/app.actions';
 import { ActivatedRoute } from '@angular/router';
 import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
+import { genreType } from 'src/app/content/movie.model';
 
 @Component({
     selector: 'app-pages-list',
@@ -15,32 +14,39 @@ import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
     styleUrls: ['./pages-list.scss']
 })
 export class PagesListComponent implements AfterViewInit, OnDestroy {
+    @ViewChild('search') public search: ElementRef;
 
     private subject = new Subject();
 
     public movieList: Observable<IMovie[]>;
     public pagePosition: number;
+    public searchText: string;
+    public genres: string[];
+    public genreTag: string;
 
     constructor(
-        private movieService: MovieService,
         private store: Store<MovieState>,
         private activeRoute: ActivatedRoute,
         private scrollToService: ScrollToService
     ) {
-        this.movieList = this.store.pipe(select('movie'));
+        this.genres = Object.values(genreType);
+        this.genres.unshift('all');
 
-        this.movieList.subscribe(res => {
-            console.log(res);
-        });
+        this.movieList = this.store.pipe(select('movie'), map(state => state.items));
+
+        this.scrollTo();
     }
 
     ngAfterViewInit() {
-        this.activeRoute.fragment
-            .pipe(takeUntil(this.subject))
-            .subscribe(res => {
-                console.log(res);
-                this.click(res);
-            });
+        fromEvent(this.search.nativeElement as HTMLElement, 'keyup')
+                .pipe(
+                    takeUntil(this.subject),
+                    debounceTime(350),
+                    map(e => (<HTMLInputElement>e.target).value.toLocaleLowerCase())
+                )
+                .subscribe(text => {
+                    this.searchText = text;
+                });
     }
 
     ngOnDestroy() {
@@ -48,15 +54,24 @@ export class PagesListComponent implements AfterViewInit, OnDestroy {
         this.subject.complete();
     }
 
-    public click(page: string): void {
-        this.scrollToService.scrollTo({
-            target: `#${page}`,
-            duration: 0
-        });
+    public sortByGenre(event: MouseEvent): void {
+        const target = event.target as HTMLHtmlElement;
+
+        if (target.tagName !== 'APP-GENRES') {
+            this.genreTag = target.textContent.replace('#', '').toLocaleLowerCase();
+        }
     }
 
-    public scrollToTop(): void {
-        window.scrollTo(0, 0);
+    public scrollTo(): void {
+        this.activeRoute.fragment
+            .pipe(takeUntil(this.subject))
+            .subscribe(key => {
+                console.log(key);
+                this.scrollToService.scrollTo({
+                    target: `#${key}`,
+                    duration: 0
+                });
+            });
     }
 
 }

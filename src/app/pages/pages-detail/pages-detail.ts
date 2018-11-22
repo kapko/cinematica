@@ -22,14 +22,16 @@ export class PagesDetailComponent {
     ) {
         this.movieId = +this.activeRoute.snapshot.params.id;
 
-        this.store.pipe(
-            select('movie'),
-            take(1),
-            map(movies => movies.find(movie => movie.id === this.movieId))
-        )
-        .subscribe(movie => {
-            this.movie = movie;
-        });
+        this.store
+            .pipe(
+                select('movie'),
+                take(1),
+                map(state => state.items.find(movie => movie.id === this.movieId))
+            )
+            .subscribe(movie => {
+                console.log(movie);
+                this.movie = movie;
+            });
 
     }
 }

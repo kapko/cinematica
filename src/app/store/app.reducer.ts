@@ -9,11 +9,11 @@ export const initialState: MovieState = {
     items: []
 };
 
-export function movieReducer(state = initialState, action: MovieAction.Types): IMovie[] {
+export function movieReducer(state = initialState, action: MovieAction.Types): MovieState {
 
     switch (action.type) {
         case MovieAction.LOAD_MOVIE:
-            return action.payload;
+            return {items: [...action.payload]};
     }
 
 }

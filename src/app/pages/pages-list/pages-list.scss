@@ -4,3 +4,19 @@
         padding-right: 20px;
     }
 }
+
+.genres {
+    cursor: pointer;
+    mark, .mark {
+        color: #fff;
+        background-color: #017bff;
+        border-radius: 3px;
+    }
+}
+
+.not-found-img {
+    width: 300px;
+    margin: 0 auto;
+    max-height: 400px;
+    display: block;
+}
