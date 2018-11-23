@@ -12,8 +12,9 @@ import { Component, Input, OnChanges } from '@angular/core';
                 aria-valuemax="100">
             </div>
         </div>
+        <i>Rate: {{rate}}</i>
     `,
-    styles: [`.progress {margin-top: 20px; width: 300px;}`]
+    styles: [`.progress {margin-top: 20px; width: 300px; height: 5px}`]
 })
 export class RateComponent implements OnChanges {
     @Input() public rate: string;

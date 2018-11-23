@@ -16,8 +16,7 @@ import { genreType } from 'src/app/content/movie.model';
 export class PagesListComponent implements AfterViewInit, OnDestroy {
     @ViewChild('search') public search: ElementRef;
 
-    private subject = new Subject();
-
+    public subject = new Subject();
     public movieList: Observable<IMovie[]>;
     public pagePosition: number;
     public searchText: string;
@@ -33,20 +32,20 @@ export class PagesListComponent implements AfterViewInit, OnDestroy {
         this.genres.unshift('all');
 
         this.movieList = this.store.pipe(select('movie'), map(state => state.items));
-
-        this.scrollTo();
     }
 
     ngAfterViewInit() {
         fromEvent(this.search.nativeElement as HTMLElement, 'keyup')
-                .pipe(
-                    takeUntil(this.subject),
-                    debounceTime(350),
-                    map(e => (<HTMLInputElement>e.target).value.toLocaleLowerCase())
-                )
-                .subscribe(text => {
-                    this.searchText = text;
-                });
+            .pipe(
+                takeUntil(this.subject),
+                debounceTime(350),
+                map(e => (<HTMLInputElement>e.target).value.toLocaleLowerCase())
+            )
+            .subscribe(text => {
+                this.searchText = text;
+            });
+
+        this.scrollTo();
     }
 
     ngOnDestroy() {
@@ -54,10 +53,17 @@ export class PagesListComponent implements AfterViewInit, OnDestroy {
         this.subject.complete();
     }
 
+    private removeActiceClasses(): void {
+        document.querySelectorAll('mark').forEach(m => m.className = '');
+    }
+
     public sortByGenre(event: MouseEvent): void {
         const target = event.target as HTMLHtmlElement;
 
-        if (target.tagName !== 'APP-GENRES') {
+        if (target.tagName === 'MARK' ) {
+            this.removeActiceClasses();
+
+            target.className = 'active';
             this.genreTag = target.textContent.replace('#', '').toLocaleLowerCase();
         }
     }
@@ -66,7 +72,6 @@ export class PagesListComponent implements AfterViewInit, OnDestroy {
         this.activeRoute.fragment
             .pipe(takeUntil(this.subject))
             .subscribe(key => {
-                console.log(key);
                 this.scrollToService.scrollTo({
                     target: `#${key}`,
                     duration: 0
