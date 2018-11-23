@@ -7,5 +7,4 @@ export interface IMovie {
     rate: string;
     length: string;
     img: string;
-    url: string;
 }

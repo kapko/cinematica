@@ -19,20 +19,10 @@ export class AppComponent {
         // just for dummy data
         this.movieService
             .getMovieList()
-            .pipe(
-                take(1),
-                map(movies => this.getImageUrl(movies))
-            )
+            .pipe(take(1))
             .subscribe(movies => {
                 this.store.dispatch(new MovieActions.LoadMovie(movies));
             });
-    }
-
-    private getImageUrl(movies: IMovie[]): IMovie[] {
-        return movies.map(movie => {
-            movie.url = `/src/app/content/assets/images/movie-covers/${movie.img}`;
-            return movie;
-        });
     }
 
 }

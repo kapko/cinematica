@@ -11,7 +11,7 @@
         <div class="row" *ngIf="(movieList | async | search : searchText : genreTag).length; else fount">
             <div class="col-lg-12 card-list"
                 *ngFor="let movie of movieList | async | search : searchText : genreTag" [id]="movie.key">
-                <img [src]="movie.url" class="rounded float-left" [alt]="movie.name">
+                <img src="assets/{{movie.img}}" class="rounded float-left" [alt]="movie.name">
                 <div class="card-body card-list__body">
                     <h5 class="card-title"><a [routerLink]="['/movie/id/', movie.id]">{{movie.name}}</a></h5>
                     <p class="card-text">{{movie.description}}</p>

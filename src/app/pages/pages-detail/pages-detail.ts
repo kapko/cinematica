@@ -29,7 +29,6 @@ export class PagesDetailComponent {
                 map(state => state.items.find(movie => movie.id === this.movieId))
             )
             .subscribe(movie => {
-                console.log(movie);
                 this.movie = movie;
             });
 
