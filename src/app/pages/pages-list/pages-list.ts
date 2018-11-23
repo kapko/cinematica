@@ -54,7 +54,7 @@ export class PagesListComponent implements AfterViewInit, OnDestroy {
     }
 
     private removeActiceClasses(): void {
-        document.querySelectorAll('mark').forEach(m => m.className = '');
+        Array.from(document.querySelectorAll('mark')).forEach(m => m.className = '');
     }
 
     public sortByGenre(event: MouseEvent): void {
