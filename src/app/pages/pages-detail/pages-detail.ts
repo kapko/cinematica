@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MovieState } from 'src/app/store/app.reducer';
 import { Store, select } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { IMovie } from 'src/app/models/movie';
 
 @Component({

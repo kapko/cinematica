@@ -18,7 +18,6 @@ export class PagesListComponent implements AfterViewInit, OnDestroy {
 
     public subject = new Subject();
     public movieList: Observable<IMovie[]>;
-    public pagePosition: number;
     public searchText: string;
     public genres: string[];
     public genreTag: string;
